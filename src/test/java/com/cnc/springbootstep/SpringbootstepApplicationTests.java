@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.cnc.springbootstep.jdbc.entity.AyUser;
+import com.cnc.springbootstep.jpa.service.AyUserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,7 +22,7 @@ public class SpringbootstepApplicationTests {
 	
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-
+	
 	/**
 	 * RowMapper对象：RowMapper对象可以将查询出的每一行数据封装成用户定义的类，在上面的代码中，通过调用RowMapper中的mapRow方法
 	 * 将数据库中的每一行数据封装成AyUser对象，并返回

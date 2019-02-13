@@ -46,3 +46,12 @@ Druid在监控，可扩展，稳定性和性能方面具有明显的优势，通
 	<artifactId>druid</artifactId>
 	<version>1.1.4</version>
 </dependency>
+
+---------------------------集成Spring Data Jpa-------------------------------------
+Jpa(java persistence api)是sun 官方提出的java持久化规范，所谓规范，即只定义标准规则，不提供实现。而jpa的主要实现有
+hibernate/EclipseLink/OpenJPA等，jpa是一套规范，不是一套产品，hibernate是一套产品，如果这些产品实现了jpa规范，
+那么我们就可以称其为jpa的实现产品。
+Spring Data Jpa是Spring Data的一个子项目，通过提供基于JPA的Respository极大地减少了JPA作为数据访问方案的代码量。
+通过Spring Data JPA框架，开发者可以省略实现持久层业务逻辑的工作，唯一要做的就是声明持久层的接口，其它都交给Spring Data
+Jpa来完成。
+Spring Data JPA最顶层的接口是Repository，该接口是所有Repository类的父类
