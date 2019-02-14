@@ -55,3 +55,13 @@ Spring Data Jpa是Spring Data的一个子项目，通过提供基于JPA的Respos
 通过Spring Data JPA框架，开发者可以省略实现持久层业务逻辑的工作，唯一要做的就是声明持久层的接口，其它都交给Spring Data
 Jpa来完成。
 Spring Data JPA最顶层的接口是Repository，该接口是所有Repository类的父类
+
+---------------------------集成thymeleaf--------------------------------------------
+thymeleaf是一个优秀的，面向java的xml/xhtml/html5页面模板，具有丰富的标签语言和函数。关于thymeleaf表达式/标签/函数等更多的
+内容，大家可以到官网http://www.thymeleaf.org参考学习
+1.引入依赖
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+注意：使用springboot 2.1.2.RELEASE会有问题，界面显示不出来，原因待排查，改用1.5.17.RELEASE

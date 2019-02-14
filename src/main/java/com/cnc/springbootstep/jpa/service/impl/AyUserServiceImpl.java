@@ -40,7 +40,7 @@ public class AyUserServiceImpl implements AyUserService{
 
 	@Override
 	public void delete(String id) {
-		ayUserRepository.deleteById(id);
+		ayUserRepository.delete(id);
 	}
 
 	@Override
