@@ -33,6 +33,8 @@ CREATE TABLE `ay_user`  (
 INSERT INTO `ay_user` VALUES ('1', '阿毅', '123456');
 INSERT INTO `ay_user` VALUES ('2', '阿兰', '123456');
 
+
+
 ----------------------------集成Druid----------------------------------------------
 1.Druid概述：Druid是阿里巴巴开源项目中的一个数据库连接池。Druid是一个JDBC组件，包括三个部分：
 a.DruidDriver代理Driver，能够提供基于Filter-Chain模式的插件体系；
@@ -46,6 +48,8 @@ Druid在监控，可扩展，稳定性和性能方面具有明显的优势，通
 	<artifactId>druid</artifactId>
 	<version>1.1.4</version>
 </dependency>
+
+
 
 ---------------------------集成Spring Data Jpa-------------------------------------
 Jpa(java persistence api)是sun 官方提出的java持久化规范，所谓规范，即只定义标准规则，不提供实现。而jpa的主要实现有
@@ -65,3 +69,43 @@ thymeleaf是一个优秀的，面向java的xml/xhtml/html5页面模板，具有�
 	<artifactId>spring-boot-starter-thymeleaf</artifactId>
 </dependency>
 注意：使用springboot 2.1.2.RELEASE会有问题，界面显示不出来，原因待排查，改用1.5.17.RELEASE
+
+
+
+---------------------------集成filter和listener--------------------------------------------------
+1.Filter：过滤器，是处于客户端与服务器资源文件之间的一道过滤网，它是Servlet技术中最激动人心的技术之一，web开发人员通过Filter技术管理
+web服务器的所有资源，例如对jsp/servlet/静态图片文件或静态html文件等进行拦截，从而实现一些特殊的功能，如实现url级别的权限访问控制，
+过滤敏感词汇，压缩响应信息等一些高级功能。
+Filter接口源代码如下：
+public interface Filter{
+	void init(FilterConfig var1) throws ServletException;
+	void doFilter(ServletRequest var1,ServletResponse var2,FilterChain var3) throws IOException,ServletException;
+	void destroy();
+}
+2.Filter的创建和销毁由web服务器负责。web应用程序启动时，web服务器将创建Filter的实例对象，并调用其init方法，读取web.xml配置，完成对象
+的初始化功能，从而为后续的用户请求做好拦截的准备工作（Filter对象只会创建一次，init方法只会执行一次）。开发人员通过init方法的参数可获得代表
+当前filter配置信息的FilterConfig对象。
+3.当客户请求访问与过滤器关联的URL时，过滤器将先执行doFilter方法， FilterChain参数用于访问后续过滤器。filter对象创建后会驻留在内存中，当
+web应用移除或服务器停止时才销毁。在web容器卸载Filter对象之前，destroy被调用。该方法在Filter的生命周期中仅执行一次，在这个方法中，可以释放
+过滤器使用的资源。
+4.Filter可以有多个，一个个Filter组合起来就形成一个FilterChain，也就是我们所说的过滤链，FilterChain执行遵循先进后出的原则；当客户端
+发送一个Request请求时，这个Request请求会先经过FilterChain，由它利用dofilter()方法调用各个子Filter，至于子filter的执行顺序如何，
+则看客户端是如何制定规则的。当Request请求被第一个Filter处理后，又通过dofilter()往下传送，被第二个，第三个。。。。。。Filter截获处理。
+当request请求被所有的filter处理之后，返回的顺序是从最后一个开始返回，直接返回给客户端。
+5.使用：
+新建Filter类：AyUserFilter(添加注解：@WebFilter(filterName = "ayUserFilter",urlPatterns = "/*")，implements Filter)
+启动类添加注解：@ServletComponentScan(@ServletComponentScan：使用该注解后，servlet/filter/listener可以直接通过
+@WebServlet，@WebFilter，@WebListener注解自动注册，无须其它代码)
+
+
+1.listener，也叫监听器，是servlet的监听器，可以用于监听web应用中某些对象，信息的创建，销毁，增加，修改，删除等动作的发生，然后做出相应的
+响应处理。当范围对象的状态发生变化时，服务器自动调用监听对象中的方法，常用于统计在线人数和在线用户，系统加载时进行信息初始化，统计网站的访问量等。。
+2.根据监听对象可以把监听器分为3类，ServletContext（对应application）/HttpSession（对应session）/ServletRequest（对应
+request）。Application在整个web服务中只有一个，在web服务关闭时销毁。session对应每个会话，在会话起始时创建，一端关闭会话时销毁。
+request对象是客户发送请求时创建的（一同创建的还有response），用于封装请求数据，在一次请求处理完毕时销毁。
+3.根据监听的事件，可以把监听器分为以下3类
+监听对象创建与销毁，如ServletContextListener。
+监听对象域中属性的增加和删除，如HttpSessionListener和ServletRequestListener。
+监听绑定到Session上的某个对象的状态，如ServletContextAttributeListener/HttpSessioinAttributeListener/ServletRequestAttributeListener等
+4.使用
+新建Listener类：AyUserListener(添加注解：@WebListener， implements ServletContextListener)
