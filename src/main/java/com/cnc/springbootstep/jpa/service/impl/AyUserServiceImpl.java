@@ -4,9 +4,12 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.Id;
 
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.cnc.springbootstep.jpa.entity.AyUser;
@@ -22,10 +25,29 @@ public class AyUserServiceImpl implements AyUserService{
 	
 	@Resource
 	private AyUserRepository ayUserRepository;
+	
+	@Resource
+	private RedisTemplate redisTemplate;
+	private static final String ALL_USER = "ALL_USER_LIST";
 
 	@Override
 	public AyUser findById(String id) {
-		return ayUserRepository.getOne(id);
+//		return ayUserRepository.getOne(id);//版本1
+		//修改：如果在redis缓存中查不到数据，再到数据库中查找
+		List<AyUser> ayUserList = redisTemplate.opsForList().range(ALL_USER, 0, -1);
+		if(ayUserList != null && ayUserList.size() > 0) {
+			for(AyUser ayUser : ayUserList) {
+				if(ayUser.getId().equals(id)) {
+					return ayUser;
+				}
+			}
+		}
+		
+		AyUser ayUser = ayUserRepository.getOne(id);
+		if(ayUser != null) {
+			redisTemplate.opsForList().leftPush(ALL_USER, ayUser);
+		}
+		return ayUser;
 	}
 
 	@Override

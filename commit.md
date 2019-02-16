@@ -109,3 +109,34 @@ request对象是客户发送请求时创建的（一同创建的还有response�
 监听绑定到Session上的某个对象的状态，如ServletContextAttributeListener/HttpSessioinAttributeListener/ServletRequestAttributeListener等
 4.使用
 新建Listener类：AyUserListener(添加注解：@WebListener， implements ServletContextListener)
+
+
+-----------------------------集成redis------------------------------------------
+1.windows redis安装：
+a.解压：Redis-x64-3.2.100.rar
+b.用cmd进入解压的目录，运行命令redis-server redis.windows.conf，启动redis服务，此时当关闭命令窗口redis服务也回关闭
+c.运行redis-cli.exe
+d.可以将redis服务安装成windows服务，在命令窗口输入：redis-server --service-install redis.windows.conf即可
+f.Redis可视化管理工具：RedisStudio，百度云连接：http://pan.baidu.com/s/1gfIbLar  密码：mpne
+
+ps：listener中也实现redis：AyUserListener
+当我们的数据存放到redis的时候，建和值都是通过spring提供的Serializer序列化到数据库的,redisTemplate使用的时JdkSerializationRedisSerializer，
+而StringRedisTemplate默认使用StringRedisSerializer，所以，我们需要让用户ayUser实现序列化接口：Serializable，具体实现如下：
+public class AyUser implements Serializable{
+
+使用：
+引入依赖：
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+application.properties添加属性值：
+# redis配置
+## 默认redis数据库为db0
+spring.redis.database=0
+## 服务器地址，默认为localhost
+spring.redis.host=localhost
+## 链接端口，默认为6379
+spring.redis.port=6379
+## redis默认密码为空
+spring.redis.password=

@@ -1,5 +1,7 @@
 package com.cnc.springbootstep.jpa.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,7 +12,7 @@ import javax.persistence.Table;
 */
 @Entity
 @Table(name = "ay_user")
-public class AyUser {
+public class AyUser implements Serializable{
 
 	@Id
 	private String id;
