@@ -186,3 +186,32 @@ logging.config=classpath:log4j2.xml
 		</root>
 	</loggers>
 </Configuration>
+
+
+-------------------------集成Quartz定时器和发送Email---------------------------
+使用
+1.引入依赖
+<dependency>
+	<groupId>org.quartz-scheduler</groupId>
+	<artifactId>quartz</artifactId>
+	<version>2.2.3</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+2.添加mail配置
+### Mail邮件配置
+### 邮箱主机
+spring.mail.host=smtp.163.com
+### 用户名
+spring.mail.username=ay_test@163.com
+### 设置授权码
+spring.mail.password=ay123456
+### 默认编码
+spring.mail.default-encoding=UTF-8
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.anable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+
+ps：注意设置授权码
