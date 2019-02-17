@@ -7,6 +7,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import com.cnc.springbootstep.jpa.entity.AyUser;
@@ -19,6 +21,8 @@ import com.cnc.springbootstep.jpa.service.AyUserService;
 @WebListener
 public class AyUserListener implements ServletContextListener{
 	
+	Logger logger = LogManager.getLogger(this.getClass());
+	
 	@Resource
 	private RedisTemplate redisTemplate;
 	
@@ -28,7 +32,8 @@ public class AyUserListener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		System.out.println("ServletContext 上下文销毁");
+//		System.out.println("ServletContext 上下文销毁");
+		logger.info("ServletContext 上下文销毁");
 	}
 
 	@Override
@@ -41,8 +46,10 @@ public class AyUserListener implements ServletContextListener{
 		//redisTemplate.opsForList().leftPushAll：查询
 		redisTemplate.opsForList().leftPushAll(ALL_USER, ayUserList);
 		List<AyUser> queryUserList = redisTemplate.opsForList().range(ALL_USER, 0, -1);
-		System.out.println("缓存中目前的用户数有：" + queryUserList.size() + " 人");
-		System.out.println("ServletContext 上下文初始化");
+//		System.out.println("缓存中目前的用户数有：" + queryUserList.size() + " 人");
+//		System.out.println("ServletContext 上下文初始化");
+		logger.info("缓存中目前的用户数有：" + queryUserList.size() + " 人");
+		logger.info("ServletContext 上下文初始化");
 	}
 
 }

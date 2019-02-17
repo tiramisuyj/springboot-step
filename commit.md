@@ -140,3 +140,49 @@ spring.redis.host=localhost
 spring.redis.port=6379
 ## redis默认密码为空
 spring.redis.password=
+
+
+------------------------------集成Log4j2--------------------------
+介绍：
+1.Log4j组成：记录器（ALL,DEBUG,INFO,WARN,ERROR,FATAL,OFF）,输出源（console,files）,布局（格式化输出内容）
+2.log4j支持两种配置文件格式，一种是xml格式的文件，一种是java特性文件log4j2.properties。properties文件简单易读，而
+xml文件可以配置更多的功能（比如过滤），没有好坏，能够融汇贯通就好
+使用说明：
+1.引入依赖
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-log4j2</artifactId>
+</dependency>
+springboot默认使用Logback日志框架来记录日志，并用INFO级别输出到控制台。所以我们在引入Log4j2之前，
+需要先排除该包的依赖，再引入Log4j2的依赖，具体方法：
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+	<exclusions>
+		<!-- 排查springboot默认日志 -->
+		<exclusion>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+2.application.properties添加配置：
+### log4j配置
+logging.config=classpath:log4j2.xml
+3.创建log4j2.xml文件
+打印到控制台(<Console/> :指定控制台输出，<PatternLayout/>:控制日志的输出格式)
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- 指定日志的输出格式 -->
+			<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+		</Console>
+	</appenders>
+	<loggers>
+		<root level="info">
+			<!-- 控制台输出 -->
+			<appender-ref ref="Console" />
+		</root>
+	</loggers>
+</Configuration>
