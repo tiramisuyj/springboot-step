@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 打印到控制台 -->
-<!-- <Configuration status="WARN">
+<Configuration status="WARN">
 	<appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			指定日志的输出格式
@@ -13,13 +13,13 @@
 			<appender-ref ref="Console" />
 		</root>
 	</loggers>
-</Configuration> -->
+</Configuration>
 
 <!-- 记录到文件 -->
-<Configuration status="WARN">
+<!-- <Configuration status="WARN">
 	<appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<!-- 指定日志的输出格式 -->
+			指定日志的输出格式
 			<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
 		</Console>
 	</appenders>
@@ -36,9 +36,9 @@
 	</RollingFile>
 	<loggers>
 		<root level="info">
-			<!-- 控制台输出 -->
+			控制台输出
 			<appender-ref ref="Console" />
 			<appender-ref ref="RollingFileInfo" />
 		</root>
 	</loggers>
-</Configuration>
+</Configuration> -->

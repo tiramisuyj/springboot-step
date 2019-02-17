@@ -215,3 +215,31 @@ spring.mail.properties.mail.smtp.starttls.anable=true
 spring.mail.properties.mail.smtp.starttls.required=true
 
 ps：注意设置授权码
+
+介绍：
+邮件发送和接收的过程如下：
+a.发件人使用SMTP协议传输邮件到邮件服务器A
+b.邮件服务器A根据邮件中指定的接收者投送邮件至相应的邮件服务器B
+c.收件人使用POP3协议从邮件服务器B接收邮件
+SMTP（Simple Mail Transfer Protocol）是电子邮件（Email）传输的互联网标准，定义在RFC5321，默认使用25端口。
+POP3（Post Office Protocol-Version 3）主要用于支持使用客户端远程管理在服务器上的电子邮件，定义在RFC1939，为
+POP协议的第三版（最新版）
+这两个协议都属于TCP/IP协议组的应用层协议，运行在TCP层
+
+
+
+--------------------------集成MyBatis----------------------------------
+介绍：MyBatis是一款优秀的持久层框架，支持定制化Sql/存储过程/高级映射。MyBatis避免了几乎所有的JDBC代码和手动设置参数以及
+获取结果集。MyBatis可以使用简单的xml或者注解来配置和映射原生信息，将接口和java的POJOS（Plain Old Java Objects，
+普通的java对象）映射成数据库中的记录
+@Mapper：重要注解，注解在dao上
+使用：
+1.引入依赖：
+<dependency>
+	<groupId>org.mybatis.spring.boot</groupId>
+	<artifactId>mybatis-spring-boot-starter</artifactId>
+	<version>1.3.1</version>
+</dependency>
+### mybatis配置
+mybatis.mapper-locations=classpath:/mappers/*Mapper.xml
+mybatis.type-aliases-package=com.cnc.springbootstep.mybatis.dao

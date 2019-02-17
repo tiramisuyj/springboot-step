@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.cnc.springbootstep.jpa.entity.AyUser;
 import com.cnc.springbootstep.jpa.repository.AyUserRepository;
 import com.cnc.springbootstep.jpa.service.AyUserService;
+import com.cnc.springbootstep.mybatis.dao.AyUserDao;
 
 /** 
 * @author yj 
@@ -29,6 +30,9 @@ public class AyUserServiceImpl implements AyUserService{
 	@Resource
 	private RedisTemplate redisTemplate;
 	private static final String ALL_USER = "ALL_USER_LIST";
+	
+	@Resource
+	private AyUserDao ayUserDao;
 
 	@Override
 	public AyUser findById(String id) {
@@ -83,6 +87,11 @@ public class AyUserServiceImpl implements AyUserService{
 	@Override
 	public List<AyUser> findByIdIn(Collection<String> ids) {
 		return ayUserRepository.findByIdIn(ids);
+	}
+
+	@Override
+	public AyUser findByNameAndPassword(String name, String password) {
+		return ayUserDao.findByNameAndPassword(name, password);
 	}
 
 }

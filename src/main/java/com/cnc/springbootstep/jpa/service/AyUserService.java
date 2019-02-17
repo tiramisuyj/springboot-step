@@ -23,4 +23,6 @@ public interface AyUserService {
 	List<AyUser> findByName(String name);
 	List<AyUser> findByNameLike(String name);
 	List<AyUser> findByIdIn(Collection<String> ids);
+	//mybatis接口
+	AyUser findByNameAndPassword(String name,String password);
 }
