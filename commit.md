@@ -243,3 +243,34 @@ POP协议的第三版（最新版）
 ### mybatis配置
 mybatis.mapper-locations=classpath:/mappers/*Mapper.xml
 mybatis.type-aliases-package=com.cnc.springbootstep.mybatis.dao
+
+
+----------------------------集成activeMQ------------------------------------
+使用：
+1.引入依赖：
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-activemq</artifactId>
+</dependency>
+2.添加配置：
+### activeMq配置
+spring.activemq.broker-url=tcp://localhost:61616
+spring.activemq.in-memory=true
+spring.activemq.pool.enabled=false
+spring.activemq.packages.trust-all=true
+3.下载：apache-activemq-5.15.8-bin.zip包，运行bin里面的32/64位，
+默认启动端口8161，访问http://localhost:8161/admin
+
+介绍：
+操作：
+创建表ay_mood：
+DROP TABLE IF EXISTS `ay_mood`;
+CREATE TABLE `ay_mood`  (
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `praise_num` int(11) NULL DEFAULT NULL,
+  `publish_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
