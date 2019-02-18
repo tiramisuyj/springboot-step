@@ -6,6 +6,7 @@ package com.cnc.springbootstep.jpa.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,6 @@ public interface AyUserService {
 	List<AyUser> findByIdIn(Collection<String> ids);
 	//mybatis接口
 	AyUser findByNameAndPassword(String name,String password);
+	//异步查询接口
+	Future<List<AyUser>> findAsyncAll();
 }

@@ -1,7 +1,9 @@
 package com.cnc.springbootstep.jpa.service.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 import javax.persistence.Id;
@@ -10,6 +12,8 @@ import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import com.cnc.springbootstep.jpa.entity.AyUser;
@@ -56,7 +60,18 @@ public class AyUserServiceImpl implements AyUserService{
 
 	@Override
 	public List<AyUser> findAll() {
-		return ayUserRepository.findAll();
+//		return ayUserRepository.findAll();
+		try {
+			System.out.println("开始做任务");
+			long start = System.currentTimeMillis();
+			List<AyUser> ayUsers = ayUserRepository.findAll();
+			long end = System.currentTimeMillis();
+			System.out.println("完成任务耗时：" + (end - start) + "ms");
+			return ayUsers;
+		} catch (Exception e) {
+			System.out.println(e);
+			return Collections.EMPTY_LIST;
+		}
 	}
 
 	@Override
@@ -92,6 +107,22 @@ public class AyUserServiceImpl implements AyUserService{
 	@Override
 	public AyUser findByNameAndPassword(String name, String password) {
 		return ayUserDao.findByNameAndPassword(name, password);
+	}
+
+	@Override
+	@Async
+	public Future<List<AyUser>> findAsyncAll() {
+		try {
+			System.out.println("开始做任务");
+			long start = System.currentTimeMillis();
+			List<AyUser> ayUsers = ayUserRepository.findAll();
+			long end = System.currentTimeMillis();
+			System.out.println("完成任务耗时：" + (end - start) + "ms");
+			return new AsyncResult<List<AyUser>>(ayUsers);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new AsyncResult<List<AyUser>>(null);
+		}
 	}
 
 }

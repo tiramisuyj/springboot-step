@@ -274,3 +274,9 @@ CREATE TABLE `ay_mood`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
+
+
+--------------------------异步调用--------------------------------
+使用：
+1.在要进行异步调用的方法上添加注解：@Async
+2.入口类上添加注解@EnableAsync开启异步调用
