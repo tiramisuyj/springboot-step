@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cnc.springbootstep.error.BusinessException;
 import com.cnc.springbootstep.jpa.entity.AyUser;
 import com.cnc.springbootstep.jpa.service.AyUserService;
 
@@ -28,5 +29,13 @@ public class AyUserController {
 		List<AyUser> ayUser = ayUserService.findAll();
 		model.addAttribute("users", ayUser);
 		return "ayUser";
+	}
+	
+	@RequestMapping("/findAll")
+	public String findAll(Model model) {
+		//查询数据库所有用户
+		List<AyUser> ayUser = ayUserService.findAll();
+		model.addAttribute("users", ayUser);
+		throw new BusinessException("业务异常");
 	}
 }

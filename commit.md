@@ -280,3 +280,83 @@ CREATE TABLE `ay_mood`  (
 使用：
 1.在要进行异步调用的方法上添加注解：@Async
 2.入口类上添加注解@EnableAsync开启异步调用
+
+
+-----------------------全局异常处理---------------------------------------
+使用：
+1.在resources/static/目录下创建404.html
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>title</title>
+</head>
+<body>
+	<div class="text" style="text-align:center">
+		主人，我累了，让我休息一会
+	</div>
+</body>
+</html>
+2.新建error包，并创建ErrorPageConfig配置类：
+@Configuration
+public class ErrorPageConfig {
+	
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer() {
+		return new EmbeddedServletContainerCustomizer() {
+			
+			@Override
+			public void customize(ConfigurableEmbeddedServletContainer arg0) {
+				ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND,"/404.html");
+				arg0.addErrorPages(error404Page);
+			}
+		};
+	}
+
+}
+3.全局异常类的开发：BusinessException
+4.异常信息类：ErrorInfo
+5.异常处理类：
+@ControllerAdvice//定义统一的异常处理类
+public class GlobalDefaultExceptionHandler
+
+
+----------------------集成mongodb-----------------------
+1.mongodb下载地址：https://www.mongodb.com/download-center/community
+2.mongodb客户端下载地址：https://www.mongodbmanager.com/download
+3.mongodb安装：配置环境变量path即可（配置到bin那个目录）
+4.mongodb启动：双击bsondump.exe
+5.mongodb常用命令：
+//显示所有数据库
+>show dbs;
+//使用test数据库
+>use test;
+//创建一个名为user的集合
+>db.user.insert({"id":"1","name":"ay","age":"26"});
+//查询user的集合
+>db.user.find();
+//将集合user名称为ay的记录更新为名称al
+>db.user.update({"id":"1"},{"id":"1","name":"al","age":"26"});
+//查询user的集合
+>db.user.find();
+//显示所有集合
+>show collections;
+//删除集合user名称为al的记录
+>db.user.remove({"name":"al"});
+//查询user集合
+>db.user.find();
+
+spring集合mongodb步骤：
+1.引入依赖
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
+2.添加属性配置：
+### mongodb配置
+### host地址
+spring.data.mongodb.host=localhost
+### 默认数据库端口号27017
+spring.data.mongodb.port=27017
+### 链接数据库名test
+spring.data.mongodb.database=test
