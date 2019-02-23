@@ -360,3 +360,12 @@ spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
 ### 链接数据库名test
 spring.data.mongodb.database=test
+
+
+--------------------------------------集成Spring Security----------------------------
+使用：
+1.引入依赖：
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-security</artifactId>
+</dependency>
